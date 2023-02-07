@@ -66,7 +66,7 @@ export type TableProps<T> = {
 	noHeader?: boolean;
 	noTableHead?: boolean;
 	onChangePage?: PaginationChangePage;
-
+    collapsible?:boolean;
 	onChangeRowsPerPage?: PaginationChangeRowsPerPage;
 	onRowClicked?: (row: T, e: React.MouseEvent) => void;
 	onRowDoubleClicked?: (row: T, e: React.MouseEvent) => void;
@@ -109,11 +109,14 @@ export type TableProps<T> = {
 	sortServer?: boolean;
 	striped?: boolean;
 	style?: CSSObject;
-	subHeader?: React.ReactNode | React.ReactNode[];
+	download?: React.ReactNode | React.ReactNode[];
 	subHeaderAlign?: Alignment;
 	subHeaderComponent?: React.ReactNode | React.ReactNode[];
 	subHeaderWrap?: boolean;
+	showTitle?:boolean;
 	theme?: Themes;
+	headerResults?:boolean;
+	footerResultsCount?:boolean;
 	/**
 	 *  Shows and displays a header with a title
 	 *  */

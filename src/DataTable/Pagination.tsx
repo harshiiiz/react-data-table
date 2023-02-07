@@ -56,6 +56,7 @@ const Pg1 = styled.div`
 	align-items: center;
 	border-radius: 4px;
 	white-space: nowrap;
+	
 	${media.sm`
     width: 100%;
     justify-content: space-around;
@@ -73,8 +74,10 @@ const Span = styled.span`
 	user-select: none;
 `;
 
-const Range = styled(Span)`
-	margin: 0 24px;
+const Range = styled.span<{footerResultsCount:boolean}>`
+margin-right:32px;
+	display:${({footerResultsCount})=>(footerResultsCount?'flex':"none")};
+
 `;
 
 const RowLabel = styled(Span)`
@@ -93,7 +96,7 @@ interface PaginationProps {
 	paginationIconPrevious?: React.ReactNode;
 	paginationComponentOptions?: PaginationOptions;
 	onChangePage: (page: number) => void;
-	
+	footerResultsCount:boolean;
 	onChangeRowsPerPage: (numRows: number, currentPage: number) => void;
 }
 
@@ -110,6 +113,7 @@ function Pagination({
 	paginationComponentOptions = defaultProps.paginationComponentOptions,
 	onChangeRowsPerPage = defaultProps.onChangeRowsPerPage,
 	onChangePage = defaultProps.onChangePage,
+	footerResultsCount=defaultProps.footerResultsCount
 
 }: PaginationProps): JSX.Element {
 	const windowSize = useWindowSize();
@@ -169,7 +173,7 @@ function Pagination({
 	return (
 		<PaginationWrapper className="rdt_Pagination">
 			<Flex1>
-				{shouldShow && <Range>{range}</Range>}
+				{shouldShow && footerResultsCount && <Range footerResultsCount={footerResultsCount}>{range}</Range>}
 				{!options.noRowsPerPage && shouldShow && (
 					<Pg1>
 						<RowLabel>{options.rowsPerPageText}</RowLabel>

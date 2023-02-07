@@ -19,16 +19,17 @@ const HeaderStyle = styled.div`
 	justify-content: space-between;
 	width: 100%;
 
-
-
 	${({ theme }) => theme.header.style}
 `;
 
-const Title = styled.div`
+const Title = styled.div<{
+	showTitle: boolean;
+}>`
 	flex: 1 0 auto;
 	color: ${({ theme }) => theme.header.fontColor};
 	font-size: ${({ theme }) => theme.header.fontSize};
 	font-weight: 500;
+	display: ${({ showTitle }) => (showTitle ? 'flex' : 'none')};
 `;
 const SubheaderWrapper = styled.div<{
 	align: AlignItems;
@@ -47,46 +48,63 @@ const SubheaderWrapper = styled.div<{
 `;
 
 const Dot = styled.span`
-margin-left:24px;
-display: flex;
-width:4px;
-heigth:4px;
-align-items: center;
+	margin-left: 24px;
+	display: flex;
+	width: 4px;
+	heigth: 4px;
+	align-items: center;
 `;
-const Range = styled.span`
+const Range = styled.span<{ headerResults: boolean }>`
 	margin: 0 28px;
-  font-weight: 400;
-font-size: 12px;
-color: #4F6683;
-white-space:nowrap;
+	font-weight: 400;
+	font-size: 12px;
+	color: #4f6683;
+	white-space: nowrap;
+	display: ${({ headerResults }) => (headerResults ? 'flex' : 'none')};
 `;
-const Icon = styled.span`
-margin-right:24px;
-display: flex;
-width:24px;
-heigth:24px;
-align-items: center;
-fill: 'rgba(132, 148, 168, 0.87)';
+const Icon = styled.span<{
+	collapsible: boolean;
+}>`
+	margin-right: 24px;
+	display: flex;
+	width: 24px;
+	heigth: 24px;
+	align-items: center;
+	fill: rgba(132, 148, 168, 0.87);
+	display: ${({ collapsible }) => (collapsible ? 'flex' : 'none')};
 `;
 
 type SubheaderProps = {
 	title?: string | React.ReactNode;
 	align?: AlignItems;
 	wrapContent?: boolean;
-  children?: React.ReactNode;
-  rowCount?: string | React.ReactNode;
+	children?: React.ReactNode;
+	rowCount?: string | React.ReactNode;
+	showTitle?: boolean;
+	headerResults?: boolean;
+	collapsible?: boolean;
 };
 
-const Subheader = ({ title = '',rowCount='', align = 'right', wrapContent = true, ...rest }: SubheaderProps): JSX.Element => (
+const Subheader = ({
+	showTitle,
+	headerResults,
+	collapsible,
+	title = '',
+	rowCount = '',
+	align = 'right',
+	wrapContent = true,
+	...rest
+}: SubheaderProps): JSX.Element => (
 	<>
-
 		<HeaderStyle className="rdt_TableHeader" role="heading" aria-level={1}>
-		<Icon><ExpanderExpandedIcon></ExpanderExpandedIcon></Icon>
-			<Title>{title}</Title>
+			<Icon collapsible={collapsible}>
+				{' '}
+				<ExpanderExpandedIcon></ExpanderExpandedIcon>
+			</Icon>
+			<Title showTitle={showTitle}>{title}</Title>
 			<Dot>.</Dot>
-      <Range>{rowCount} results</Range>
-      <SubheaderWrapper align={align} wrapContent={wrapContent} {...rest} />
-
+			<Range headerResults={headerResults}>{rowCount} results</Range>
+			<SubheaderWrapper align={align} wrapContent={wrapContent} {...rest} />
 		</HeaderStyle>
 	</>
 );

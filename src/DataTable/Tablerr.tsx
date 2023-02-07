@@ -33,6 +33,9 @@ import {
 	SortOrder,
 } from './types';
 import useColumns from '../hooks/useColumns';
+import FileDownloadOutlinedIcon from '../../src/icons/Download';
+
+import { CSVLink } from 'react-csv';
 
 function Tablerr<T>(props: TableProps<T>): JSX.Element {
 	const {
@@ -42,7 +45,7 @@ function Tablerr<T>(props: TableProps<T>): JSX.Element {
 		tbtitle = defaultProps.tbtitle,
 		actions = defaultProps.actions,
 		keyField = defaultProps.keyField,
-		striped = defaultProps.striped,
+
 		highlightOnHover = defaultProps.highlightOnHover,
 		pointerOnHover = defaultProps.pointerOnHover,
 		dense = defaultProps.dense,
@@ -60,7 +63,7 @@ function Tablerr<T>(props: TableProps<T>): JSX.Element {
 		expandableIcon = defaultProps.expandableIcon,
 		onChangeRowsPerPage = defaultProps.onChangeRowsPerPage,
 		onChangePage = defaultProps.onChangePage,
-
+        collapsible=defaultProps.collapsible,
 		paginationServer = defaultProps.paginationServer,
 		paginationServerOptions = defaultProps.paginationServerOptions,
 		paginationTotalRows = defaultProps.paginationTotalRows,
@@ -85,9 +88,11 @@ function Tablerr<T>(props: TableProps<T>): JSX.Element {
 		fixedHeader = defaultProps.fixedHeader,
 		fixedHeaderScrollHeight = defaultProps.fixedHeaderScrollHeight,
 		pagination = defaultProps.pagination,
-		subHeader = defaultProps.subHeader,
+		download = defaultProps.download,
+		showTitle = defaultProps.showTitle,
 		subHeaderAlign = defaultProps.subHeaderAlign,
 		subHeaderWrap = defaultProps.subHeaderWrap,
+		headerResults = defaultProps.headerResults,
 		subHeaderComponent = defaultProps.subHeaderComponent,
 		noContextMenu = defaultProps.noContextMenu,
 		contextMessage = defaultProps.contextMessage,
@@ -117,6 +122,7 @@ function Tablerr<T>(props: TableProps<T>): JSX.Element {
 		theme = defaultProps.theme,
 		customStyles = defaultProps.customStyles,
 		direction = defaultProps.direction,
+		footerResultsCount = defaultProps.footerResultsCount,
 		onColumnOrderChange = defaultProps.onColumnOrderChange,
 		className,
 	} = props;
@@ -225,7 +231,6 @@ function Tablerr<T>(props: TableProps<T>): JSX.Element {
 			}),
 		[paginationServer, persistSelectedOnPageChange, selectableRowsVisibleOnly],
 	);
-
 
 	const handleChangeRowsPerPage = React.useCallback(
 		(newRowsPerPage: number) => {
@@ -356,16 +361,24 @@ function Tablerr<T>(props: TableProps<T>): JSX.Element {
 				/>
 			)}
 
-			{subHeader && (
-				<Subheader
-					title={title}
-					rowCount={paginationTotalRows || sortedData.length}
-					align={subHeaderAlign}
-					wrapContent={subHeaderWrap}
-				>
-					{subHeaderComponent}
-				</Subheader>
-			)}
+			<Subheader
+				headerResults={headerResults}
+				title={title}
+				showTitle={showTitle}
+				rowCount={paginationTotalRows || sortedData.length}
+				align={subHeaderAlign}
+				wrapContent={subHeaderWrap}
+				collapsible={collapsible}
+			>
+				{download && (
+					<div style={{ display: 'flex', alignItems: 'center', marginRight: '18px' }}>
+						<CSVLink data={data}>
+							<FileDownloadOutlinedIcon />
+						</CSVLink>
+					</div>
+				)}
+				{subHeaderComponent}
+			</Subheader>
 
 			<ResponsiveWrapper
 				responsive={responsive}
@@ -469,7 +482,6 @@ function Tablerr<T>(props: TableProps<T>): JSX.Element {
 											selectableRowsComponentProps={selectableRowsComponentProps}
 											selectableRowDisabled={selectableRowDisabled}
 											selectableRowsSingle={selectableRowsSingle}
-											striped={striped}
 											onRowExpandToggled={onRowExpandToggled}
 											onRowClicked={handleRowClicked}
 											onRowDoubleClicked={handleRowDoubleClicked}
@@ -494,6 +506,7 @@ function Tablerr<T>(props: TableProps<T>): JSX.Element {
 			{enabledPagination && (
 				<div>
 					<Pagination
+						footerResultsCount={footerResultsCount}
 						onChangePage={handleChangePage}
 						onChangeRowsPerPage={handleChangeRowsPerPage}
 						rowCount={paginationTotalRows || sortedData.length}

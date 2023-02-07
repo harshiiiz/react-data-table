@@ -4,9 +4,9 @@ import { Meta, Story } from '@storybook/react/types-6-0';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import Icon2 from '../../src/icons/Filter';
-import FileDownloadOutlinedIcon from '../../src/icons/Download';
+
 import TextField from '@material-ui/core/TextField';
-import { CSVLink } from 'react-csv';
+
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import data from '../constants/sampleMovieData';
@@ -35,9 +35,9 @@ const ExpandableRowComponent: React.FC<ExpanderComponentProps<Row>> = ({ data })
 
 const SubHeaderComponent = ({ filterText = 'string', onFilter }) => (
 	<div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
-		<CSVLink data={data}>
+		{/* <CSVLink data={data}>
 			<FileDownloadOutlinedIcon />
-		</CSVLink>
+		</CSVLink> */}
 		<Icon2 />
 		<TextField
 			id="search"
@@ -143,7 +143,7 @@ function Tabler({
 	expandableRowsHideExpander,
 	pagination,
 	highlightOnHover,
-	striped,
+
 	pointerOnHover,
 	dense,
 	persistTableHead,
@@ -151,16 +151,18 @@ function Tabler({
 	fixedHeader,
 	fixedHeaderScrollHeight,
 	progressPending,
-
+	headerResults,
 	noTableHead,
 	noContextMenu,
 	direction,
-	subHeader,
+	download,
 	subHeaderAlign,
 	subHeaderWrap,
 	responsive,
+	showTitle,
 	disabled,
-	collapsible
+	collapsible,
+	footerResultsCount,
 }: TablePropsExtended): JSX.Element {
 	//filter
 	const [filterText, setFilterText] = React.useState('');
@@ -196,17 +198,18 @@ function Tabler({
 			expandableRowsHideExpander={expandableRowsHideExpander}
 			pagination={pagination}
 			highlightOnHover={highlightOnHover}
-			striped={striped}
 			pointerOnHover={pointerOnHover}
 			dense={dense}
 			noTableHead={noTableHead}
 			persistTableHead={persistTableHead}
 			progressPending={progressPending}
 			noHeader={noHeader}
-			subHeader={subHeader}
+			download={download}
 			subHeaderComponent={subHeaderComponentMemo}
 			subHeaderAlign={subHeaderAlign}
 			subHeaderWrap={subHeaderWrap}
+			headerResults={headerResults}
+			showTitle={showTitle}
 			noContextMenu={noContextMenu}
 			fixedHeader={fixedHeader}
 			fixedHeaderScrollHeight={fixedHeaderScrollHeight}
@@ -214,6 +217,7 @@ function Tabler({
 			direction={direction}
 			responsive={responsive}
 			disabled={disabled}
+			footerResultsCount={footerResultsCount}
 		/>
 	);
 }
@@ -230,27 +234,30 @@ ReactTable.args = {
 	selectableRowsSingle: false,
 	expandableRows: false,
 	expandOnRowClicked: false,
-	expandOnRowDoubleClicked: false,
+	//expandOnRowDoubleClicked: false,
 	expandableRowsHideExpander: false,
 	pagination: true,
 	highlightOnHover: false,
-	striped: false,
+
 	pointerOnHover: false,
 	dense: false,
-	persistTableHead: false,
-	noHeader: false,
+	//persistTableHead: false,
+	noHeader: true,
 	fixedHeader: false,
-	fixedHeaderScrollHeight: '300px',
+	//fixedHeaderScrollHeight: '300px',
 	progressPending: false,
 	noTableHead: false,
 	noContextMenu: false,
-	direction: Direction.AUTO,
-	subHeader: true,
-	subHeaderAlign: Alignment.RIGHT,
-	subHeaderWrap: true,
+	//direction: Direction.AUTO,
+	download: true,
+	headerResults: true,
+	//subHeaderAlign: Alignment.RIGHT,
+
+	showTitle: true,
 	responsive: true,
 	disabled: false,
-	collapsible:false,
+	collapsible: false,
+	footerResultsCount: true,
 };
 
 export default {
@@ -300,23 +307,23 @@ export default {
 				category: 'Expandable Rows',
 			},
 		},
-		expandOnRowDoubleClicked: {
-			table: {
-				category: 'Expandable Rows',
-			},
-		},
+		// expandOnRowDoubleClicked: {
+		// 	table: {
+		// 		category: 'Expandable Rows',
+		// 	},
+		// },
 		expandableRowsHideExpander: {
 			table: {
 				category: 'Expandable Rows',
 			},
 		},
-		subHeaderAlign: {
-			options: [Alignment.RIGHT, Alignment.CENTER, Alignment.LEFT],
-			control: { type: 'select' },
-		},
-		direction: {
-			options: [Direction.AUTO, Direction.LTR, Direction.RTL],
-			control: { type: 'select' },
-		},
+		// subHeaderAlign: {
+		// 	options: [Alignment.RIGHT, Alignment.CENTER, Alignment.LEFT],
+		// 	control: { type: 'select' },
+		// },
+		// direction: {
+		// 	options: [Direction.AUTO, Direction.LTR, Direction.RTL],
+		// 	control: { type: 'select' },
+		// },
 	},
 } as Meta;
