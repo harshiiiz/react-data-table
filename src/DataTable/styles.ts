@@ -31,7 +31,7 @@ export const defaultStyles = (theme: Theme): TableStyles => ({
 	},
 	subHeader: {
 		style: {
-
+			
 			backgroundColor: theme.background.default,
 
 			minHeight: '52px',

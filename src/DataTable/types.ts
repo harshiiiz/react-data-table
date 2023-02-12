@@ -55,7 +55,7 @@ export type TableProps<T> = {
 	expandableRowsComponent?: ExpandableRowsComponent<T>;
 	expandableRowsComponentProps?: ComponentProps;
 	expandableRowsHideExpander?: boolean;
-	expandOnRowClicked?: boolean;
+	clickToDetail?: boolean;
 	expandOnRowDoubleClicked?: boolean;
 	fixedHeader?: boolean;
 	fixedHeaderScrollHeight?: string;

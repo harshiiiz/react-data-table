@@ -138,7 +138,7 @@ function Tabler({
 	selectableRowsHighlight,
 	selectableRowsSingle,
 	expandableRows,
-	expandOnRowClicked,
+	clickToDetail,
 	expandOnRowDoubleClicked,
 	expandableRowsHideExpander,
 	pagination,
@@ -193,7 +193,7 @@ function Tabler({
 			selectableRowsVisibleOnly={selectableRowsVisibleOnly}
 			expandableRows={expandableRows}
 			expandableRowsComponent={ExpandableRowComponent}
-			expandOnRowClicked={expandOnRowClicked}
+			clickToDetail={clickToDetail}
 			expandOnRowDoubleClicked={expandOnRowDoubleClicked}
 			expandableRowsHideExpander={expandableRowsHideExpander}
 			pagination={pagination}
@@ -229,11 +229,11 @@ export const ReactTable = Template.bind({});
 ReactTable.args = {
 	selectableRows: false,
 	selectableRowsNoSelectAll: false,
-	selectableRowsVisibleOnly: false,
+//	selectableRowsVisibleOnly: false,
 	selectableRowsHighlight: false,
 	selectableRowsSingle: false,
 	expandableRows: false,
-	expandOnRowClicked: false,
+	clickToDetail: false,
 	//expandOnRowDoubleClicked: false,
 	expandableRowsHideExpander: false,
 	pagination: true,
@@ -242,7 +242,7 @@ ReactTable.args = {
 	pointerOnHover: false,
 	dense: false,
 	//persistTableHead: false,
-	noHeader: true,
+	noHeader: false,
 	fixedHeader: false,
 	//fixedHeaderScrollHeight: '300px',
 	progressPending: false,
@@ -254,7 +254,7 @@ ReactTable.args = {
 	//subHeaderAlign: Alignment.RIGHT,
 
 	showTitle: true,
-	responsive: true,
+	//responsive: true,
 	disabled: false,
 	collapsible: false,
 	footerResultsCount: true,
@@ -282,11 +282,11 @@ export default {
 				category: 'Selectable Rows',
 			},
 		},
-		selectableRowsVisibleOnly: {
-			table: {
-				category: 'Selectable Rows',
-			},
-		},
+		// selectableRowsVisibleOnly: {
+		// 	table: {
+		// 		category: 'Selectable Rows',
+		// 	},
+		// },
 		selectableRowsHighlight: {
 			table: {
 				category: 'Selectable Rows',
@@ -302,7 +302,7 @@ export default {
 				category: 'Expandable Rows',
 			},
 		},
-		expandOnRowClicked: {
+		clickToDetail: {
 			table: {
 				category: 'Expandable Rows',
 			},

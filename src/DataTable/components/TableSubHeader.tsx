@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 import * as React from 'react';
 import styled from 'styled-components';
-import ExpanderExpandedIcon from '../../icons/ExpanderExpandedIcon';
+
+import { ExpandableIcon } from '../types';
 const alignMap = {
 	left: 'flex-start',
 	right: 'flex-end',
@@ -19,7 +20,7 @@ const HeaderStyle = styled.div`
 	justify-content: space-between;
 	width: 100%;
 
-	${({ theme }) => theme.header.style}
+	${({ theme }) => theme.subHeader.style}
 `;
 
 const Title = styled.div<{
@@ -29,6 +30,7 @@ const Title = styled.div<{
 	color: ${({ theme }) => theme.header.fontColor};
 	font-size: ${({ theme }) => theme.header.fontSize};
 	font-weight: 500;
+	margin-left:11px;
 	display: ${({ showTitle }) => (showTitle ? 'flex' : 'none')};
 `;
 const SubheaderWrapper = styled.div<{
@@ -62,16 +64,18 @@ const Range = styled.span<{ headerResults: boolean }>`
 	white-space: nowrap;
 	display: ${({ headerResults }) => (headerResults ? 'flex' : 'none')};
 `;
-const Icon = styled.span<{
+const Icon = styled.button<{
 	collapsible: boolean;
 }>`
-	margin-right: 24px;
-	display: flex;
-	width: 24px;
-	heigth: 24px;
 	align-items: center;
-	fill: rgba(132, 148, 168, 0.87);
-	display: ${({ collapsible }) => (collapsible ? 'flex' : 'none')};
+	user-select: none;
+	white-space: nowrap;
+	border: none;
+	
+	background-color: transparent;
+	cursor: pointer;
+	fill:rgba(0,0,0,.54);
+	display: ${({ collapsible }) => (collapsible ? 'inline-flex' : 'none')};
 `;
 
 type SubheaderProps = {
@@ -83,6 +87,9 @@ type SubheaderProps = {
 	showTitle?: boolean;
 	headerResults?: boolean;
 	collapsible?: boolean;
+
+	expanded?: boolean;
+	expandableIcon: ExpandableIcon;
 };
 
 const Subheader = ({
@@ -93,20 +100,38 @@ const Subheader = ({
 	rowCount = '',
 	align = 'right',
 	wrapContent = true,
+
+	expandableIcon,
+	expanded,
+	setExpanded,
+
 	...rest
-}: SubheaderProps): JSX.Element => (
-	<>
-		<HeaderStyle className="rdt_TableHeader" role="heading" aria-level={1}>
-			<Icon collapsible={collapsible}>
-				{' '}
-				<ExpanderExpandedIcon></ExpanderExpandedIcon>
-			</Icon>
-			<Title showTitle={showTitle}>{title}</Title>
-			<Dot>.</Dot>
-			<Range headerResults={headerResults}>{rowCount} results</Range>
-			<SubheaderWrapper align={align} wrapContent={wrapContent} {...rest} />
-		</HeaderStyle>
-	</>
-);
+}: SubheaderProps): JSX.Element => {
+	//const [expanded, setExpanded] = React.useState(defaultExpanded);
+
+	const icon = expanded ? expandableIcon.expanded : expandableIcon.collapsed;
+	return (
+		<>
+			<HeaderStyle className="rdt_TableHeader" role="heading" aria-level={1}>
+				<Icon
+					collapsible={collapsible}
+					onClick={() => setExpanded(!expanded)}
+					data-testid={`expander-button`}
+					aria-label={expanded ? 'Collapse Row' : 'Expand Row'}
+					role="button"
+					type="button"
+				>
+					{' '}
+					{icon}
+				</Icon>
+
+				<Title showTitle={showTitle}>{title}</Title>
+				<Dot>.</Dot>
+				<Range headerResults={headerResults}>{rowCount} results</Range>
+				<SubheaderWrapper align={align} wrapContent={wrapContent} {...rest} />
+			</HeaderStyle>
+		</>
+	);
+};
 
 export default Subheader;
